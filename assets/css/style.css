@@ -1,0 +1,21 @@
+.main{
+display: block;
+margin: 0 50%;
+}
+.answer{
+    display: block;
+    background-color: purple;
+    margin-top: 5px;
+    width: 155px;
+    height: 30px;
+    border-radius: 15%;
+    border: none;
+}
+
+#feedback h2{
+    border-top: 5px solid;
+    border-color: lightgray;
+    color: lightgray;
+    width: 100%;
+    width: fit-content;
+}
