@@ -16,16 +16,17 @@ var questions =
    new Question("where","b","wrong answera","wrong answerb","wrong answerc")
 ]
 
-var choiceButtons = [];
-
 var mainEl = document.querySelector("#main");
+var startEl = document.querySelector("#start");
 var questionEl = document.querySelector("#question");
 var feedbackEl;
+var choiceButtons = [];
+var formEl;
+
 var questionIndex= 0;
 var currentQuestion;
-var timer = 75;
-//var highScores = ["98","77","66","55","11"];
-var formEl;
+var time = 75;
+
 
 var NextQuestion = function()
 {
@@ -41,6 +42,20 @@ var NextQuestion = function()
     }
 
 }
+var StartButtonHandler = function()
+{
+    startEl.remove();
+    for(i=0;i<4;i++)
+    {
+        choiceButtons.push(createEl("button","answer"));
+    }
+    
+    feedbackEl = createEl("h2","feedback");
+    Timer();
+    NextQuestion();
+    mainEl.addEventListener("click",AnswerButtonHandler);    
+}
+
 var AnswerButtonHandler = function(event)
 {
     var buttonEl = event.target;
@@ -55,32 +70,7 @@ var AnswerButtonHandler = function(event)
             feedbackEl.textContent="wrong";
         }
 }
-var PullRandom = function(array)
-{
-    var index = Math.floor(Math.random()* array.length-1)
-    return array.splice(index,1)[0];
-}
 
-var createEl = function(type, styleClass){
-    var el = document.createElement(type);
-    el.className = styleClass;
-    mainEl.appendChild(el);
-    return el;
-}
-
-var showScore = function()
-{
-    console.log("showing score");
-    choiceButtons.forEach(buttonEl =>{
-        buttonEl.remove();
-    });
-    questionEl.textContent = "All done";
-    yourScoreEl = createEl("div","yourScore");
-    yourScoreEl.textContent = "your final score is: " +timer;
-    formEl = createEl("form","");
-    formEl.innerHTML ='<input type="text" name="initials" placeholder="Enter initials" /><button class="" type="submit">submit</button> ';
-    formEl.addEventListener("submit",SubmitHsHandler)
-}
 var SubmitHsHandler = function(event)
 {
     event.preventDefault();
@@ -96,11 +86,38 @@ var SubmitHsHandler = function(event)
 
 }
 
+var createEl = function(type, styleClass){
+    var el = document.createElement(type);
+    el.className = styleClass;
+    mainEl.appendChild(el);
+    return el;
+}
+
+var PullRandom = function(array)
+{
+    var index = Math.floor(Math.random()* array.length-1)
+    return array.splice(index,1)[0];
+}
+
+var showScore = function()
+{
+    console.log("showing score");
+    choiceButtons.forEach(buttonEl =>{
+        buttonEl.remove();
+    });
+    questionEl.textContent = "All done";
+    yourScoreEl = createEl("div","yourScore");
+    yourScoreEl.textContent = "your final score is: " +time;
+    formEl = createEl("form","");
+    formEl.innerHTML ='<input type="text" name="initials" placeholder="Enter initials" /><button class="" type="submit">submit</button> ';
+    formEl.addEventListener("submit",SubmitHsHandler)
+}
+
 var DisplayHighScores = function(initials)
 {
     questionEl.textContent ="";
     var index = 0;
-    var CurrentEntry = initials +"- "+timer;
+    var CurrentEntry = initials +"- "+time;
     var myScore = parseInt(CurrentEntry.slice(CurrentEntry.length-2,CurrentEntry.length));
     var index =0;
     //highScores.push(myentry);
@@ -143,6 +160,7 @@ var DisplayHighScores = function(initials)
     saveEl = createEl("button","");
     saveEl.textContent = "save";
     saveEl.addEventListener("click",SaveHighScores(highScores));
+    mainEl.innerHTML += '<input type="button" value="go back" onClick="window.location.reload(true)"></input>'
 }
 
 var SaveHighScores = function(highScores){
@@ -155,12 +173,20 @@ var loadHighScores = function(){
     if(!highScores) return [];
     else return highScores;
 }
+var Timer = function() {
+    var timerEl = document.querySelector("#timer");
+    var timeInterval = setInterval(function() {
+      if(time==0){
+        console.log("times up");
+        showScore();
+        clearInterval(timeInterval);
+      }
+      else{
+        time--;
+        timerEl.textContent = "time: "+time; 
 
-for(i=0;i<4;i++)
-{
-    choiceButtons.push(createEl("button","answer"));
+  
+      }
+    },1000);
 }
-feedbackEl = createEl("h2","feedback");
-
-NextQuestion();
-mainEl.addEventListener("click",AnswerButtonHandler)
+startEl.addEventListener("click",StartButtonHandler)
