@@ -1,21 +1,70 @@
-.main{
-display: block;
-margin: 0 50%;
+body {
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+#timer {
+    text-align: right;
 }
-.answer{
+
+#start{
+    margin-left: 37%;
+}
+
+.center{
+    text-align: center;
+}
+
+#main{
+    display: block;
+    position: absolute;
+    top: 40%;
+    left: 32%;
+    width: 30%;
+}
+
+main h1{
+    width: 100%;
+}
+
+button{
     display: block;
     background-color: purple;
     margin-top: 5px;
     width: 155px;
     height: 30px;
-    border-radius: 15%;
+    border-radius: 8px;
     border: none;
 }
+button:active{
+    background-color: plum;
+}
 
-#feedback h2{
+.small-button {
+    display: inline;
+    width: 73px;
+    height: 26px;
+    margin-right: 10px;
+}
+
+main h2{
+   
     border-top: 5px solid;
     border-color: lightgray;
     color: lightgray;
     width: 100%;
-    width: fit-content;
+
+}
+
+.hide{
+    opacity: 0;
+    height: 0;
+}
+
+form input{
+    height: 18px;
+    margin-right: 10px;
+}
+
+.high-score {
+    background-color: lightgrey;
 }
